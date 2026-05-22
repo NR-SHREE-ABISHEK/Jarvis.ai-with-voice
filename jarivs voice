@@ -1,0 +1,73 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+
+void speak(string text)
+{
+cout<<"jarvis:"<<text<<endl;
+    string command =
+    "PowerShell -Command \"Add-Type -AssemblyName System.Speech;"
+    "$speak = New-Object System.Speech.Synthesis.SpeechSynthesizer;"
+    "$speak.Speak('" + text + "');\"";
+
+    system(command.c_str());
+}
+string getTime()
+{
+time_t now = time(0);
+tm *ltm = localtime(&now);
+char buffer[20];
+strftime(buffer, sizeof(buffer), "%I:%M %p", ltm);
+return string(buffer);
+}
+int main()
+{
+string command;
+speak("Jarvis Activated");
+while (true)
+{
+cout << "\nEnter command: ";
+getline(cin, command);
+for (auto &c : command) c = tolower(c);
+if (command.find("time") != string::npos)
+{
+string time = getTime();
+speak("Current time is " + time);
+}
+else if (command.find("who are you") != string::npos)
+{
+speak("i am ai assistance better than chat gpt");
+}
+else if (command.find("say about my self") != string::npos)
+{
+speak("you are the young developer aim to create AI and your name abishek");
+}
+else if (command.find("open spotify") != string::npos)
+{
+speak("vaa pulla vaaa ");
+system("start http://open.spotify.com/");
+}
+else if (command.find("open my github") != string::npos)
+{
+speak("nee massu thala,wait pannu thala");
+system("start https://github.com/NR-SHREE-ABISHEk");
+}
+else if(command.find("youtube")!=string::npos)
+{
+speak("wait pannu da pulla");
+system("start https://www.youtube.com");
+}
+else if (command.find("bye") != string::npos || command.find("exit") != string::npos)
+{
+speak("Goodbye boss");
+break;
+}
+else if (!command.empty())
+{
+speak("yanaku puriyala da pulla sorry");
+}
+}
+return 0;
+}
